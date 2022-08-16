@@ -896,15 +896,15 @@ void WaveshareEPaper5P65In::initialize() {
   this->command(0xE3);
   this->data(0xAA);
 
-  delay(100);
+  delay(100); // NOLINT
   this->command(0x50);
   this->data(0x37);
 }
 void HOT WaveshareEPaper5P65In::display() {
   this->command(0x10);
-  
-  for (size_t i=0; i<this->get_height_internal(); i++) {	  
-    for (size_t j=0; j<this->get_width_internal()/2; j++) {
+
+  for(size_t i=0; i<this->get_height_internal(); i++) {
+    for(size_t j=0; j<this->get_width_internal()/2; j++) {
       this->data(this->buffer_[j+((this->get_width_internal()/2)*i)];
     }
   }
@@ -918,7 +918,7 @@ void HOT WaveshareEPaper5P65In::display() {
   this->command(0x02);
   this->wait_until_idle_();
 
-  delay(200);
+  delay(200); // NOLINT
 }
 int WaveshareEPaper5P65In::get_width_internal() { return 600; }
 int WaveshareEPaper5P65In::get_height_internal() { return 448; }
