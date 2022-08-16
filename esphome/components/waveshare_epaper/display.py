@@ -35,6 +35,9 @@ WaveshareEPaper4P2In = waveshare_epaper_ns.class_(
 WaveshareEPaper4P2InBV2 = waveshare_epaper_ns.class_(
     "WaveshareEPaper4P2InBV2", WaveshareEPaper
 )
+WaveshareEPaper5P65In = waveshare_epaper_ns.class_(
+    "WaveshareEPaper5P65In", WaveshareEPaper
+)
 WaveshareEPaper5P8In = waveshare_epaper_ns.class_(
     "WaveshareEPaper5P8In", WaveshareEPaper
 )

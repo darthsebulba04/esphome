@@ -841,6 +841,96 @@ void WaveshareEPaper4P2InBV2::dump_config() {
   LOG_UPDATE_INTERVAL(this);
 }
 
+bool WaveshareEPaper5P65In::wait_until_idle_high_() {
+  if (this->busy_pin_ == nullptr) {
+    return true;
+  }
+
+  const uint32_t start = millis();
+  while (!this->busy_pin_->digital_read()) {
+    if (millis() - start > this->idle_timeout_()) {
+      ESP_LOGE(TAG, "Timeout while displaying image!");
+      return false;
+    }
+    delay(10);
+  }
+  return true;
+}
+void WaveshareEPaper5P65In::initialize() {
+  this->command(0x00);
+  this->data(0xEF);
+  this->data(0x08);
+
+  this->command(0x01);
+  this->data(0x37);
+  this->data(0x00);
+  this->data(0x23);
+  this->data(0x23);
+
+  this->command(0x03);
+  this->data(0x00);
+
+  this->command(0x06);
+  this->data(0xC7);
+  this->data(0xC7);
+  this->data(0x1D);
+
+  this->command(0x30);
+  this->data(0x3C);
+
+  this->command(0x41);
+  this->data(0x00);
+
+  this->command(0x50);
+  this->data(0x37);
+
+  this->command(0x60);
+  this->data(0x22);
+
+  this->command(0x61);
+  this->data(0x02);
+  this->data(0x58);
+  this->data(0x01);
+  this->data(0xC0);
+
+  this->command(0xE3);
+  this->data(0xAA);
+
+  delay(100);
+  this->command(0x50);
+  this->data(0x37);
+}
+void HOT WaveshareEPaper5P65In::display() {
+  this->command(0x10);
+  
+  for (size_t i=0; i<this->get_height_internal(); i++) {	  
+    for (size_t j=0; j<this->get_width_internal()/2; j++) {
+      this->data(this->buffer_[j+((this->get_width_internal()/2)*i)];
+    }
+  }
+
+  this->command(0x04);
+  this->wait_until_idle_high_();
+
+  this->command(0x12);
+  this->wait_until_idle_high_();
+
+  this->command(0x02);
+  this->wait_until_idle_();
+
+  delay(200);
+}
+int WaveshareEPaper5P65In::get_width_internal() { return 600; }
+int WaveshareEPaper5P65In::get_height_internal() { return 448; }
+void WaveshareEPaper5P65In::dump_config() {
+  LOG_DISPLAY("", "Waveshare E-Paper", this);
+  ESP_LOGCONFIG(TAG, "  Model: 5.65in");
+  LOG_PIN("  Reset Pin: ", this->reset_pin_);
+  LOG_PIN("  DC Pin: ", this->dc_pin_);
+  LOG_PIN("  Busy Pin: ", this->busy_pin_);
+  LOG_UPDATE_INTERVAL(this);
+}
+void WaveshareEPaper7P5InBV2::initialize() {
 void WaveshareEPaper5P8In::initialize() {
   // COMMAND POWER SETTING
   this->command(0x01);
