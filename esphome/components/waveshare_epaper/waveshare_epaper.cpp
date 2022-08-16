@@ -905,7 +905,7 @@ void HOT WaveshareEPaper5P65In::display() {
 
   for(size_t i=0; i<this->get_height_internal(); i++) {
     for(size_t j=0; j<this->get_width_internal()/2; j++) {
-      this->data(this->buffer_[j+((this->get_width_internal()/2)*i)];
+      this->data(this->buffer_[j+((this->get_width_internal()/2)*i)]);
     }
   }
 
@@ -930,7 +930,6 @@ void WaveshareEPaper5P65In::dump_config() {
   LOG_PIN("  Busy Pin: ", this->busy_pin_);
   LOG_UPDATE_INTERVAL(this);
 }
-void WaveshareEPaper7P5InBV2::initialize() {
 void WaveshareEPaper5P8In::initialize() {
   // COMMAND POWER SETTING
   this->command(0x01);
