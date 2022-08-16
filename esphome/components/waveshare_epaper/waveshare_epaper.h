@@ -245,6 +245,13 @@ class WaveshareEPaper5P65In : public WaveshareEPaper {
 
   void dump_config() override;
 
+  void deep_sleep() override {
+    delay(100); // NOLINT
+    this->command(0x07);
+    this->data(0xA5);
+    delay(100); // NOLINT
+  }
+
   bool wait_until_idle_high_();
 
  protected:
