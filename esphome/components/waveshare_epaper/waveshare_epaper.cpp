@@ -849,7 +849,7 @@ bool WaveshareEPaper5P65In::wait_until_idle_high_() {
   const uint32_t start = millis();
   while (!this->busy_pin_->digital_read()) {
     if (millis() - start > this->idle_timeout_()) {
-      ESP_LOGE(TAG, "Timeout while displaying image!");
+      ESP_LOGE(TAG, "Timeout idle on high!");
       return false;
     }
     delay(10);
