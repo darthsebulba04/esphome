@@ -848,7 +848,6 @@ bool WaveshareEPaper5P65In::wait_until_idle_high_() {
 
   const uint32_t start = millis();
   while (!(this->busy_pin_->digital_read())) {
-    this->command(0x71);
     if (millis() - start > this->idle_timeout_()) {
       ESP_LOGI(TAG, "Timeout idle high!");
       return false;
@@ -864,7 +863,6 @@ bool WaveshareEPaper5P65In::wait_until_idle_low_() {
 
   const uint32_t start = millis();
   while (this->busy_pin_->digital_read()) {
-    this->command(0x71);
     if (millis() - start > this->idle_timeout_()) {
       ESP_LOGI(TAG, "Timeout idle low!");
       return false;
