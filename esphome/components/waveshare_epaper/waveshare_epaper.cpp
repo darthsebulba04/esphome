@@ -940,29 +940,21 @@ void HOT WaveshareEPaper5P65In::display() {
     if(i/10 == 0) {
       this->write_byte(0x00);
     } else {
-      this->write_byte(0x02);
+      this->write_byte(0xFF);
     }
   }
   this->end_data_();
 
   this->command(0x04);
-  if(this->wait_until_idle_high_()) {
-    this->command(0x12);
-    
-    if(this->wait_until_idle_high_()) {
-      this->command(0x02);
-  
-      if(this->wait_until_idle_low_()) {
-        delay(200); // NOLINT
-      } else { 
-        ESP_LOGI(TAG, "Timeout idle low!");
-      }
-    } else {
-      ESP_LOGI(TAG, "Timeout idle high 2!");
-    }
-  } else {
-    ESP_LOGI(TAG, "Timeout idle high 1!");
-  }
+  this->wait_until_idle_high_();
+
+  this->command(0x12);
+  delay(10000); // NOLINT
+
+  this->command(0x02);
+  this->wait_until_idle_low_();
+
+  delay(200); // NOLINT
 }
 int WaveshareEPaper5P65In::get_width_internal() { return 600; }
 int WaveshareEPaper5P65In::get_height_internal() { return 448; }
