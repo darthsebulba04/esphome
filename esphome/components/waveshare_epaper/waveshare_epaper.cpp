@@ -843,7 +843,7 @@ void WaveshareEPaper4P2InBV2::dump_config() {
 
 bool WaveshareEPaper5P65In::wait_until_idle_high_() {
   if (this->busy_pin_ == nullptr) {
-    return true;
+    return false;
   }
 
   const uint32_t start = millis();
@@ -858,7 +858,7 @@ bool WaveshareEPaper5P65In::wait_until_idle_high_() {
 }
 bool WaveshareEPaper5P65In::wait_until_idle_low_() {
   if (this->busy_pin_ == nullptr) {
-    return true;
+    return false;
   }
 
   const uint32_t start = millis();
@@ -872,7 +872,9 @@ bool WaveshareEPaper5P65In::wait_until_idle_low_() {
   return true;
 }
 void WaveshareEPaper5P65In::initialize() {
-  this->wait_until_idle_high_();
+  if(!this->wait_until_idle_high_()) {
+    return;
+  }
 
   this->command(0x00);
   this->data(0xEF);
@@ -918,8 +920,13 @@ void WaveshareEPaper5P65In::initialize() {
   this->data(0x37);
 }
 void HOT WaveshareEPaper5P65In::display() {
-  this->command(0x10);
+  this->command(0x61);
+  this->data(0x02);
+  this->data(0x58);
+  this->data(0x01);
+  this->data(0xC0);
 
+  this->command(0x10);
   for(size_t i=0; i<this->get_height_internal(); i++) {
     for(size_t j=0; j<this->get_width_internal()/2; j++) {
       this->data(this->buffer_[j+((this->get_width_internal()/2)*i)]);
@@ -927,15 +934,15 @@ void HOT WaveshareEPaper5P65In::display() {
   }
 
   this->command(0x04);
-  this->wait_until_idle_high_();
-
-  this->command(0x12);
-  this->wait_until_idle_high_();
-
-  this->command(0x02);
-  this->wait_until_idle_low_();
-
-  delay(200); // NOLINT
+  if(this->wait_until_idle_high_()) {
+    this->command(0x12);
+    
+    if(this->wait_until_idle_high_()) {
+      this->command(0x02);
+  
+      if(this->wait_until_idle_low_()) {
+        delay(200); // NOLINT
+      }
 }
 int WaveshareEPaper5P65In::get_width_internal() { return 600; }
 int WaveshareEPaper5P65In::get_height_internal() { return 448; }
