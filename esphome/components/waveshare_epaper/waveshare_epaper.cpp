@@ -903,11 +903,12 @@ void WaveshareEPaper5P65In::initialize() {
 void HOT WaveshareEPaper5P65In::display() {
   this->command(0x10);
 
-  for(size_t i=0; i<this->get_height_internal(); i++) {
+  this->write_array(this->buffer_, this->get_buffer_length_());
+/*  for(size_t i=0; i<this->get_height_internal(); i++) {
     for(size_t j=0; j<this->get_width_internal()/2; j++) {
       this->data(this->buffer_[j+((this->get_width_internal()/2)*i)]);
     }
-  }
+  }*/
 
   this->command(0x04);
   this->wait_until_idle_high_();
