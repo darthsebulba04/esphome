@@ -873,6 +873,7 @@ bool WaveshareEPaper5P65In::wait_until_idle_low_() {
 }
 void WaveshareEPaper5P65In::initialize() {
   if(!this->wait_until_idle_high_()) {
+    ESP_LOGI(TAG, "Timeout in init!");
     return;
   }
 
@@ -916,6 +917,7 @@ void WaveshareEPaper5P65In::initialize() {
   this->data(0xAA);
 
   delay(100); // NOLINT
+
   this->command(0x50);
   this->data(0x37);
 }
@@ -942,8 +944,14 @@ void HOT WaveshareEPaper5P65In::display() {
   
       if(this->wait_until_idle_low_()) {
         delay(200); // NOLINT
+      } else { 
+        ESP_LOGI(TAG, "Timeout idle low!");
       }
+    } else {
+      ESP_LOGI(TAG, "Timeout idle high 2!");
     }
+  } else {
+    ESP_LOGI(TAG, "Timeout idle high 1!");
   }
 }
 int WaveshareEPaper5P65In::get_width_internal() { return 600; }
