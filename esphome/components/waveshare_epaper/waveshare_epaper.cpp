@@ -949,7 +949,7 @@ void HOT WaveshareEPaper5P65In::display() {
   this->wait_until_idle_high_();
 
   this->command(0x12);
-  delay(10000); // NOLINT
+  this->wait_until_idle_high_();
 
   this->command(0x02);
   this->wait_until_idle_low_();
