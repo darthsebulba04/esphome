@@ -943,6 +943,8 @@ void HOT WaveshareEPaper5P65In::display() {
       if(this->wait_until_idle_low_()) {
         delay(200); // NOLINT
       }
+    }
+  }
 }
 int WaveshareEPaper5P65In::get_width_internal() { return 600; }
 int WaveshareEPaper5P65In::get_height_internal() { return 448; }
