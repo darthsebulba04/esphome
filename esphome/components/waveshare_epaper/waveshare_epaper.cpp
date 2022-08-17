@@ -930,12 +930,17 @@ void HOT WaveshareEPaper5P65In::display() {
 
   this->command(0x10);
   this->start_data_();
-  this->write_array(this->buffer_, this->get_buffer_length_());
-  /*for(size_t i=0; i<this->get_height_internal(); i++) {
+  //this->write_array(this->buffer_, this->get_buffer_length_());
+  for(size_t i=0; i<this->get_height_internal(); i++) {
     for(size_t j=0; j<this->get_width_internal()/2; j++) {
-      this->data(this->buffer_[j+((this->get_width_internal()/2)*i)]);
+      //this->data(this->buffer_[j+((this->get_width_internal()/2)*i)]);
+      if(i/2 == 0) {
+        this->write_byte(0x00);
+      } else {
+	this->write_byte(0x02);
+      }
     }
-  }*/
+  }
   this->end_data_();
 
   this->command(0x04);
