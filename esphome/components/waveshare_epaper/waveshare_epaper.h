@@ -253,13 +253,12 @@ class WaveshareEPaper5P65In : public WaveshareEPaper {
   }
 
   bool wait_until_idle_high_();
+  bool wait_until_idle_low_();
 
  protected:
   int get_width_internal() override;
 
   int get_height_internal() override;
-  
-  uint32_t idle_timeout_() override;
 };
 
 class WaveshareEPaper5P8In : public WaveshareEPaper {

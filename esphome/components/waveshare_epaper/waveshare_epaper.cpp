@@ -846,17 +846,24 @@ bool WaveshareEPaper5P65In::wait_until_idle_high_() {
     return true;
   }
 
-  const uint32_t start = millis();
   while (!this->busy_pin_->digital_read()) {
-    if (millis() - start > this->idle_timeout_()) {
-      ESP_LOGE(TAG, "Timeout idle on high!");
-      return false;
-    }
+    delay(10);
+  } 
+  return true;
+}
+bool WaveshareEPaper5P65In::wait_until_idle_low_() {
+  if (this->busy_pin_ == nullptr) {
+    return true;
+  }
+
+  while (this->busy_pin_->digital_read()) {
     delay(10);
   }
   return true;
 }
 void WaveshareEPaper5P65In::initialize() {
+  this->wait_until_idle_high_();
+
   this->command(0x00);
   this->data(0xEF);
   this->data(0x08);
@@ -917,13 +924,12 @@ void HOT WaveshareEPaper5P65In::display() {
   this->wait_until_idle_high_();
 
   this->command(0x02);
-  this->wait_until_idle_();
+  this->wait_until_idle_low_();
 
   delay(200); // NOLINT
 }
 int WaveshareEPaper5P65In::get_width_internal() { return 600; }
 int WaveshareEPaper5P65In::get_height_internal() { return 448; }
-uint32_t WaveshareEPaper5P65In::idle_timeout_() { return 33000; }
 void WaveshareEPaper5P65In::dump_config() {
   LOG_DISPLAY("", "Waveshare E-Paper", this);
   ESP_LOGCONFIG(TAG, "  Model: 5.65in");
