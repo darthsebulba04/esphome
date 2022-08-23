@@ -951,6 +951,7 @@ void HOT WaveshareEPaper5P65In::display() {
 }
 int WaveshareEPaper5P65In::get_width_internal() { return 600; }
 int WaveshareEPaper5P65In::get_height_internal() { return 448; }
+uint32_t WaveshareEPaper5P65In::idle_timeout_() { return 30000; }
 void WaveshareEPaper5P65In::dump_config() {
   LOG_DISPLAY("", "Waveshare E-Paper", this);
   ESP_LOGCONFIG(TAG, "  Model: 5.65in");
