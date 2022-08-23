@@ -938,9 +938,9 @@ void HOT WaveshareEPaper5P65In::display() {
   }*/
   for (size_t i = 0; i < this->get_buffer_length_(); i++) {
     if(i/10 == 0) {
-      this->write_byte(0x000000);
+      this->data(0x000000);
     } else {
-      this->write_byte(0xFFFFFF);
+      this->data(0xFFFFFF);
     }
   }
   this->end_data_();
