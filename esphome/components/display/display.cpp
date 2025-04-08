@@ -15,6 +15,9 @@ const Color COLOR_ON(255, 255, 255, 255);
 void Display::fill(Color color) { this->filled_rectangle(0, 0, this->get_width(), this->get_height(), color); }
 void Display::clear() { this->fill(COLOR_OFF); }
 void Display::set_rotation(DisplayRotation rotation) { this->rotation_ = rotation; }
+void HOT Display::point(int x, int y, Color color) {
+  this->draw_pixel_at(x, y, color);
+}
 void HOT Display::line(int x1, int y1, int x2, int y2, Color color) {
   const int32_t dx = abs(x2 - x1), sx = x1 < x2 ? 1 : -1;
   const int32_t dy = -abs(y2 - y1), sy = y1 < y2 ? 1 : -1;

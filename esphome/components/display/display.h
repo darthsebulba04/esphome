@@ -256,6 +256,9 @@ class Display : public PollingComponent {
     this->draw_pixels_at(x_start, y_start, w, h, ptr, order, bitness, big_endian, 0, 0, 0);
   }
 
+  /// Draw a point [x, y] with the given color.
+  void point(int x, int y, Color color = COLOR_ON);
+
   /// Draw a straight line from the point [x1,y1] to [x2,y2] with the given color.
   void line(int x1, int y1, int x2, int y2, Color color = COLOR_ON);
 
